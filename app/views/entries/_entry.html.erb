@@ -1,0 +1,25 @@
+<li id="entry-<%= entry.id %>">
+  <%= link_to gravatar_for(entry.user, size: 50), entry.user %>
+  <span class="user"><%= link_to entry.user.name, entry.user %></span>
+  <span class="content">
+    <h3><%= entry.title %></h3>
+    <%= entry.content %>
+  </span>
+  <span class="timestamp">
+    Posted <%= time_ago_in_words entry.created_at  %> ago.
+    <% if logged_in? %>
+      <% if (entry.user).correct_user? current_user %>
+        <%= link_to "delete", entry, method: :delete,
+          data: {confirm: "You sure?"} %>
+      <% end %>
+      <%= form_for @comment do |f| %>
+      <%= f.label :"Post your comment here" %>
+      <%= f.text_field :content, class: "form-control" %>
+      <%= f.hidden_field :entry_id, :value => entry.id %>
+      <%= f.submit "Enter", class: "btn btn-primary" %>
+      <% end %>
+    <% end %>
+    <h5><%= entry.comments.count %> Comment </h5>
+    <%= render entry.comments %>
+  </span>
+</li>
