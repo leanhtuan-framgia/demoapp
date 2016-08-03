@@ -7,12 +7,12 @@
   </span>
   <span class="timestamp">
     Posted <%= time_ago_in_words entry.created_at  %> ago.
-    <% if logged_in? %>
-      <% if (entry.user).correct_user? current_user %>
-        <%= link_to "delete", entry, method: :delete,
+    <% if logged_in? && current_user.can_comment?(entry.user) %>
+      <% if (entry.user).correct_user?(current_user) %>
+        <%= link_to "delete", entry, method: :delete, remote: true,
           data: {confirm: "You sure?"} %>
       <% end %>
-      <%= form_for @comment do |f| %>
+      <%= form_for @comment, remote: true do |f| %>
       <%= f.label :"Post your comment here" %>
       <%= f.text_field :content, class: "form-control" %>
       <%= f.hidden_field :entry_id, :value => entry.id %>

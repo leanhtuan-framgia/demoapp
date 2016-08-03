@@ -8,19 +8,23 @@
         <%= render "shared/stats" %>
       </section>
       <section class="entry_form">
-        <%= render "shared/entry_form" %>
+        <strong id="entryform">
+          <%= render "shared/entry_form" %>
+        </strong>
       </section>
     </aside>
     <div class="col-md-8">
       <h3>Entry Wall</h3>
-      <%= render "shared/feed" %>
+      <strong id="aaa">
+        <%= render "shared/feed" %>
+      </strong>
     </div>
   </div>
 <% else %>
   <div class="center jumbotron">
     <div class="col-md-8">
       <h3>Entry Wall</h3>
-      <%= render "shared/feed" %>
+          <%= render "shared/feed" %>
     </div>
   </div>
 
