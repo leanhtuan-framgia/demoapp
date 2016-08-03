@@ -14,11 +14,14 @@ class RelationshipsController < ApplicationController
   def create
     @user = User.find_by id: params[:followed_id]
     current_user.follow @user
-    @relationship = current_user.active_relationships.build
-
+    @relationship =
+      current_user.active_relationships.find_by followed_id: @user.id
+    @entries = @user.entries.order_by_time
+    init_comment
     respond_to do |format|
       format.html {redirect_to @user}
       format.js
+
     end
   end
 
@@ -26,12 +29,12 @@ class RelationshipsController < ApplicationController
     @relationship = Relationship.find_by id: params[:id]
     @user = @relationship.followed
     current_user.unfollow @user
-    @relationship =
-      current_user.active_relationships.find_by followed_id: @user.id
-
+    @relationship = current_user.active_relationships.build
+    @entries = @user.entries.order_by_time
     respond_to do |format|
       format.html {redirect_to @user}
       format.js
+
     end
   end
 

@@ -60,6 +60,10 @@ class User < ApplicationRecord
       following.include? other_user
     end
 
+    def can_comment? other_user
+      self.following?(other_user) || self.correct_user?(other_user)
+    end
+
     private
     def email_downcase
       self.email = email.downcase

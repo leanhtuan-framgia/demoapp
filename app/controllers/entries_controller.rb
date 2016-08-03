@@ -6,7 +6,13 @@ class EntriesController < ApplicationController
     @entry = current_user.entries.build entry_params
     if @entry.save
       flash[:successful] = "Entry Created!"
-      redirect_to root_url
+      @feed_items = current_user.feeds.paginate page: params[:page]
+      init_comment
+      @entry = Entry.new
+      respond_to do |format|
+        format.html {redirect_to request.referrer || root_url}
+        format.js
+      end
     else
       @feed_items = current_user.feeds.paginate page: params[:page]
       render "static_pages/home"

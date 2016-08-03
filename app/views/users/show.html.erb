@@ -14,9 +14,9 @@
     <%= render "follow_form" if logged_in? %>
     <% if @user.entries.any? %>
       <h3>entries (<%= @user.entries.count %>)</h3>
-      <ol class="microposts">
+      <strong id="sss" class="microposts">
         <%= render @entries.order_by_time %>
-      </ol>
+      </strong>
       <%= will_paginate @entries %>
     <% end %>
   </div>

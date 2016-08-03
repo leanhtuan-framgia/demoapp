@@ -1,9 +1,14 @@
 class CommentsController < ApplicationController
   def create
     @comment = current_user.comments.build comt_params
+    @feed_items = current_user.feeds.paginate page: params[:page]
     if @comment.save
       flash[:successful] = "Commented"
-      redirect_to request.referrer || root_url
+      init_comment
+      respond_to do |format|
+        format.html {redirect_to request.referrer || root_url}
+        format.js
+      end
     else
       flash[:danger] = "Error!"
       @feed_items = current_user.feeds.paginate page: params[:page]
@@ -12,9 +17,14 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @comment.destroy
+    Comment.find_by(id: params[:id]).destroy
+    init_comment
+    @feed_items = current_user.feeds.paginate page: params[:page]
     flash[:success] = "Comment Deleted"
-    redirect_to request.referrer || root_url
+    respond_to do |format|
+      format.html {redirect_to request.referrer || root_url}
+      format.js
+    end
   end
 
   private

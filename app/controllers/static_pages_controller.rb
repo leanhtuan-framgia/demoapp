@@ -1,7 +1,7 @@
 class StaticPagesController < ApplicationController
   def home
     if logged_in?
-      @comment = Comment.new
+      init_comment
       @entry = current_user.entries.build
       @feed_items = current_user.feeds.paginate page: params[:page]
     else
